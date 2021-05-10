@@ -12,7 +12,7 @@ class DirectoryTree:
     def __init__(self, root_dir):
         self._generator = _TreeGenerator(root_dir)
 
-    def generator(self):
+    def generate(self):
         tree = self._generator.build_tree()
         for entry in tree:
             print(entry)
@@ -29,7 +29,7 @@ class _TreeGenerator:
         return self._tree
 
     def _tree_head(self):
-        self._tree.append(f"{self._root_dir}{os.sep")
+        self._tree.append(f"{self._root_dir}{os.sep}")
         self._tree.append(PIPE)
 
     def _tree_body(self, directory, prefix=""):  # directory is a pathlib object
