@@ -14,7 +14,7 @@ def main():
         print("The specified root directory doesn't exist")
         sys.exit()
 
-    tree = DirectoryTree(root_dir)
+    tree = DirectoryTree(root_dir, dir_only=args.dir_only)
     tree.generate()
 
 
@@ -25,6 +25,12 @@ def parse_cmd_line_arguments():
         epilog="Thanks for using Cherry Tree!",
     )
     parser.version = f"Cherry Tree v{__version__}"
+    parser.add_argument(
+        "-d",
+        "--dir-only",
+        action="store_true",
+        help="Generate a directory-only tree",
+    )
     parser.add_argument("-v", "--version", action="version")
     parser.add_argument(
         "root_dir",

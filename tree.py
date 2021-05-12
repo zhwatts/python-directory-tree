@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
+# tree.py
 
-"""This module provides the main Cherry Tree entry point script"""
-
+# treet rptree as a module, and import cli from that module
 from rptree.cli import main
 
 if __name__ == "__main__":

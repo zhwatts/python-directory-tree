@@ -9,8 +9,8 @@ SPACE_PREFIX = "    "
 
 
 class DirectoryTree:
-    def __init__(self, root_dir):
-        self._generator = _TreeGenerator(root_dir)
+    def __init__(self, root_dir, dir_only=False):
+        self._generator = _TreeGenerator(root_dir, dir_only)
 
     def generate(self):
         tree = self._generator.build_tree()
@@ -19,8 +19,9 @@ class DirectoryTree:
 
 
 class _TreeGenerator:
-    def __init__(self, root_dir):
+    def __init__(self, root_dir, dir_only=False):
         self._root_dir = pathlib.Path(root_dir)
+        self._dir_only = dir_only
         self._tree = []
 
     def build_tree(self):
@@ -33,9 +34,7 @@ class _TreeGenerator:
         self._tree.append(PIPE)
 
     def _tree_body(self, directory, prefix=""):  # directory is a pathlib object
-        entries = directory.iterdir()
-        # The net effect is that sorted() places the directories first because entry.is_file() == False == 0 and the files after them because entry.is_file() == True == 1.
-        entries = sorted(entries, key=lambda entry: entry.is_file())
+        entries = self._prepare_entries(directory)
         entries_count = len(entries)
 
         # gives us the index of the entry
@@ -48,6 +47,15 @@ class _TreeGenerator:
                 )
             else:
                 self._add_file(entry, prefix, connector)
+
+    def _prepare_entries(self, directory):
+        entries = directory.iterdir()
+        if self._dir_only:
+            entries = [entry for entry in entries if entry.is_dir()]
+            # The net effect is that sorted() places the directories first because entry.is_file() == False == 0 and the files after them because entry.is_file() == True == 1.
+            return entries
+        entries = sorted(entries, key=lambda entry: entry.is_file())
+        return entries
 
     def _add_directory(
         self, directory, index, entries_count, prefix, connector
