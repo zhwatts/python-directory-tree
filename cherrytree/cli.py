@@ -3,7 +3,7 @@ import pathlib
 import sys
 
 from . import __version__
-from .rptree import DirectoryTree
+from .cherrytree import DirectoryTree
 
 
 def main():
