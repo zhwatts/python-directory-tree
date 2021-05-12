@@ -14,7 +14,8 @@ def main():
         print("The specified root directory doesn't exist")
         sys.exit()
 
-    tree = DirectoryTree(root_dir, dir_only=args.dir_only)
+    tree = DirectoryTree(root_dir, dir_only=args.dir_only,
+                         output_file=args.output_file)
     tree.generate()
 
 
@@ -25,6 +26,7 @@ def parse_cmd_line_arguments():
         epilog="Thanks for using Cherry Tree!",
     )
     parser.version = f"Cherry Tree v{__version__}"
+
     parser.add_argument(
         "-d",
         "--dir-only",
@@ -39,6 +41,14 @@ def parse_cmd_line_arguments():
         nargs="?",
         default=".",  # default value if one is not provided, a single . represents the current directory
         help="Generate a full directory tree starting at ROOT_DIR",
+    )
+    parser.add_argument(
+        "-o",
+        "--output-file",
+        metavar="OUTPUT_FILE",
+        nargs="?",
+        default=sys.stdout,
+        help="Generate a full directory tree and save it to a file"
     )
 
     return parser.parse_args()
